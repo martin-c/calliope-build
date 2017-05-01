@@ -1,0 +1,36 @@
+# tasks for Debian platform
+---
+#
+# Installs the basic tools for working with Python
+#
+- name: Install Python 2.7 pip
+  sudo: yes
+  apt: name=python-pip state=present
+
+- name: Install Python Virtualenv
+  sudo: yes
+  apt: name=python-virtualenv state=present
+
+- name: Install essential build tools to make packges in pip
+  sudo: yes
+  apt: name=build-essential state=present
+
+# http://pillow.readthedocs.org/installation.html
+- name: Install external libraries recommended for Pillow
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items: [libjpeg-turbo8, zlibc, libwebp5, libopenjpeg2]
+
+- name: Install Python SQLite library
+  sudo: yes
+  apt: name=python-sqlite state=present
+
+# used by Ansible htpasswd module
+- name: Install Python passlib
+  sudo: yes
+  apt: name=python-passlib state=present
+
+# used by Ansible expect module
+- name: Install Python pexpect module
+  sudo: yes
+  apt: name=python-pexpect state=present

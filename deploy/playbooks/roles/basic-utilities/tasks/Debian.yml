@@ -1,0 +1,13 @@
+---
+# Installs a set of basic utilities for Debian
+# We are going to assume python-apt and aptitude are already installed.
+# https://github.com/ansible/ansible/issues/4079
+
+- name: Update Apt caches
+  sudo: yes
+  apt: update_cache=yes
+
+- name: Install basic utility packages
+  sudo: yes
+  apt: name=sudo,nano,tree,iftop,htop,cowsay,screen,git,aptitude state=present
+  register: install_basic_packages

@@ -1,0 +1,41 @@
+---
+# This role sets up a set of basic utilities on a system
+#
+- include: Solaris.yml
+  when: ansible_os_family == "Solaris"
+
+- include: Debian.yml
+  when: ansible_os_family == "Debian"
+
+# set the set_root_password and/or set_admin_password variables to True to enable setting of a password. These
+# variables default to False otherwise and passwords will not be set.
+- name: Generate crypt value of root password
+  command: "python -c \"import crypt, random, string; print crypt.crypt('{{ root_user_password }}', '$5${}'.format(''.join(random.choice(string.ascii_letters + string.digits + './') for x in range(16))))\""
+  register: _root_password_crypt
+  when: set_root_password
+
+- name: Set root user password
+  sudo: yes
+  user:
+    name: root
+    state: present
+    password: "{{ _root_password_crypt.stdout }}"
+  when: set_root_password
+
+- name: Generate crypt value of admin password
+  command: "python -c \"import crypt, random, string; print crypt.crypt('{{ admin_user_password }}', '$5${}'.format(''.join(random.choice(string.ascii_letters + string.digits + './') for x in range(16))))\""
+  register: _admin_password_crypt
+  when: set_admin_password
+
+- name: Set admin user password
+  sudo: yes
+  user:
+    name: admin
+    state: present
+    password: "{{ _admin_password_crypt.stdout }}"
+  when: set_admin_password
+
+- name: Clear temporary variables
+  command: echo
+  register: _root_password_crypt, _admin_password_crypt
+  when: set_root_password or set_admin_password

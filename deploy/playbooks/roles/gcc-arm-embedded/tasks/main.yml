@@ -1,0 +1,6 @@
+---
+- include: Solaris.yml
+  when: ansible_os_family == "Solaris"
+  
+- include: Debian.yml
+  when: ansible_os_family == "Debian"

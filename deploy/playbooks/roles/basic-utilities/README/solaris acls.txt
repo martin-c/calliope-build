@@ -1,0 +1,87 @@
+owner@:<perms>[:inheritance flags]:<allow|deny>
+           Permissions for file owner.
+
+user:<username>:<perms>[:inheritance flags]:<allow|deny>
+           Permissions for a specific user.
+           
+read_data (r)
+list_directory (r)
+write_data (w)
+add_file (w)
+append_data (p)         // not supported
+add_subdirectory (p)
+read_xattr (R)
+write_xattr (W)
+execute (x)
+read_attributes (a)
+write_attributes (A)
+delete (d)
+delete_child (D)
+read_acl (c)
+write_acl (C)
+write_owner (o)
+synchronize (s)         // not supported
+
+positional:     rwx--D--------
+compact:        rwxD
+
+alias:
+full_set
+modify_set          All permissions except write_acl and write_owner.
+read_set            read_data, read_acl, read_attributes, and read_xattr.
+write_set           write_data, append_data, write_attributes, and write_xattr
+
+
+Inheritance Flags:
+
+file_inherit (f)    Inherit to all newly created files.
+dir_inherit (d)     Inherit to all newly created directories.
+inherit_only (i)    When placed on a directory, do not apply to the directory, only to newly created files and directories. This flag requires that either file_inherit and or dir_inherit is also specified.
+no_propagate (n)    Indicates that ACL entries should be inherited to objects in a directory, but inheritance should stop after descending one level. This flag is dependent upon either file_inherit and or dir_inherit also being specified.
+
+positional:     fd-n--
+compact:        fdn
+
+
+An operator is one of the following:
++   (DEFAULT) Each attribute specified by the associated attribute_specifier is adjusted to match the value specified by the attribute_specifier.
+-   Each attribute specified by the associated attribute_specifier is adjusted to match the inverse of the value specified by the attribute_specifier.
+=   Each attribute specified by the associated attribute_specifier is adjusted to match the value specified by the attribute_specifier. Any boolean read-write extended system attributes associated with the current file that are not specified by attribute_specifier is cleared.
+
+ACL Operation:
+
+    A[number] -
+    A-acl_specification
+    A[index]{+|=}acl_specification
+    
+Examples:
+chmod A+user:lp:read_data:deny file.3
+chmod A+user:lp:-wx file.2
+
+before:
+         % ls -V file.1
+         -rw-r--r--+  1 root     root           0 Oct  6 12:16 file.1
+              user:lp:rw------------:------:allow
+               owner@:--x-----------:------:deny
+               owner@:rw-p---A-W-Co-:------:allow
+               group@:-wxp----------:------:deny
+               group@:r-------------:------:allow
+            everyone@:-wxp---A-W-Co-:------:deny
+            everyone@:r-----a-R-c--s:------:allow
+            
+$ chmod A3+user:marks:r:deny file.1
+
+after:
+         $ ls -V file.1
+         -rw-r--r--+  1 root     staff          0 Feb  3 14:13 file.1
+              user:lp:rw------------:------:allow
+               owner@:--x-----------:------:deny
+               owner@:rw-p---A-W-Co-:------:allow
+           user:marks:r-------------:------:deny
+               group@:-wxp----------:------:deny
+               group@:r-------------:------:allow
+            everyone@:-wxp---A-W-Co-:------:deny
+            everyone@:r-----a-R-c--s:------:allow
+            
+Note: Use /usr/bin/chmod and /usr/bin/ls to work wtih ACLs.
+

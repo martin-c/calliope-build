@@ -1,0 +1,44 @@
+# tasks for Debian platform (Ubuntu)
+---
+
+- name: Install general build tools
+  sudo: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: [git, python-setuptools, python-dev, python-pip, python3-pip,
+    build-essential, libreadline-dev libffi-dev libssl-dev libyaml-dev]
+
+- name: Set git user email
+  command: git config --global user.email \"{{ git_user_email }}\"
+
+- name: Set git user name
+  command: git config --global user.name \"{{ git_user_name }}\"
+
+- name: Remove outdated gcc and binutils
+  sudo: yes
+  apt:
+    name: "{{ item }}"
+    state: absent
+  with_items: [binutils-arm-none-eabi, gcc-arm-none-eabi]
+
+- name: Add ppas
+  sudo: yes
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items: ["ppa:team-gcc-arm-embedded/ppa", "ppa:pmiller-opensource/ppa"]
+
+# TODO: Install newlib-2.4.0!
+
+- name: Install gcc and related
+  sudo: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: [gcc-arm-embedded, cmake, ninja-build, gcc-arm-none-eabi, srecord]
+
+- name: Install yotta
+  pip:
+    name: yotta

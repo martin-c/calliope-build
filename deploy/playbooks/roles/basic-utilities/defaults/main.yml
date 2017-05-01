@@ -1,0 +1,5 @@
+---
+
+# force setting of admin passwords
+set_root_password:      no
+set_admin_password:     no

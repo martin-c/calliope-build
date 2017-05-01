@@ -1,0 +1,31 @@
+# tasks for Solaris platform (SmartOS)
+---
+#
+# Installs the basic tools for working with Python
+#
+- name: Install Python 2.7 pip
+  pkgin: name=py27-pip state=present
+  sudo: yes
+
+- name: Install Python Virtualenv
+  pkgin: name=py27-virtualenv state=present
+  sudo: yes
+
+- name: Install essential build tools to make packges in pip
+  pkgin: name=build-essential state=present
+  sudo: yes
+
+# http://pillow.readthedocs.org/installation.html
+- name: Install external libraries recommended for Pillow
+  sudo: yes
+  pkgin: name={{ item }} state=present
+  with_items: libjpeg-turbo,zlib,libwebp,openjpeg
+
+- name: Install Python SQLite library
+  sudo: yes
+  pkgin: name=py27-sqlite3 state=present
+
+# used by Ansible htpasswd module
+- name: Install Python passlib
+  sudo: yes
+  pkgin: name=py27-passlib state=present

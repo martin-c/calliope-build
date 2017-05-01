@@ -1,0 +1,7 @@
+---
+# Installs a set of basic utilities for SmartOS
+
+- name: Install basic utility packages
+  sudo: yes
+  pkgin: name=sudo,nano,tree,top,iftop,htop,cowsay,screen,git state=present
+  register: install_basic_packages

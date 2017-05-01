@@ -1,0 +1,5 @@
+---
+# List Role dependencies here
+dependencies:
+ - { role: basic-utilities }
+ - { role: python }
