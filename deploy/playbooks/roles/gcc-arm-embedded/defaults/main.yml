@@ -6,3 +6,10 @@
 #-------------------------------------------------------------------------#
 #                 Set default variable values here.                       #
 #-------------------------------------------------------------------------#
+
+# required by git
+git_user_name:    "{{ansible_ssh_user}}"
+git_user_email:   "{{ git_user_name }}@localhost"
+
+# GNU Embedded Toolchain URL
+gnu_embedded_toolchain_url:   "https://developer.arm.com/-/media/Files/downloads/gnu-rm/6_1-2017q1/gcc-arm-none-eabi-6-2017-q1-update-linux.tar.bz2?product=GNU%20ARM%20Embedded%20Toolchain,64-bit,,Linux,6-2017-q1-update"

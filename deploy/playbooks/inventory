@@ -1,0 +1,3 @@
+[calliope_build_servers]
+# enter server hostname or IP address here
+# example: 37.153.109.138 ansible_ssh_user=cbuild ansible_become_pass=nbVzKLYBSP

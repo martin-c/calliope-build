@@ -1,4 +1,3 @@
 ---
 # List Role dependencies here
 dependencies:
-  - role: set-hostname

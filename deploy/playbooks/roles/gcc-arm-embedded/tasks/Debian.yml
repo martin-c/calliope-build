@@ -7,7 +7,12 @@
     name: "{{ item }}"
     state: present
   with_items: [git, python-setuptools, python-dev, python-pip, python3-pip,
-    build-essential, libreadline-dev libffi-dev libssl-dev libyaml-dev]
+    build-essential, libreadline-dev, libffi-dev, libssl-dev, libyaml-dev,
+    cmake, ninja-build, srecord]
+
+- name: Install yotta
+  pip:
+    name: yotta
 
 - name: Set git user email
   command: git config --global user.email \"{{ git_user_email }}\"
@@ -15,7 +20,7 @@
 - name: Set git user name
   command: git config --global user.name \"{{ git_user_name }}\"
 
-- name: Remove outdated gcc and binutils
+- name: Remove outdated ARM gcc and binutils
   sudo: yes
   apt:
     name: "{{ item }}"
@@ -28,17 +33,16 @@
     repo: "{{ item }}"
     state: present
     update_cache: yes
-  with_items: ["ppa:team-gcc-arm-embedded/ppa", "ppa:pmiller-opensource/ppa"]
+  with_items: ["ppa:team-gcc-arm-embedded/ppa"]
 
+# This installs newlib 2.2.0+git20150830.5a3d536-1
+# We need newlib 2.4.0-2
 # TODO: Install newlib-2.4.0!
+# <https://github.com/bbcmicrobit/micropython/issues/363#issuecomment-270890904>
 
-- name: Install gcc and related
+- name: Install GCC ARM compiler and toolchain
   sudo: yes
   apt:
     name: "{{ item }}"
     state: present
-  with_items: [gcc-arm-embedded, cmake, ninja-build, gcc-arm-none-eabi, srecord]
-
-- name: Install yotta
-  pip:
-    name: yotta
+  with_items: ["gcc-arm-none-eabi=15:4.9.3+svn231177-1", "gcc-arm-embedded=6-2017q1-1*"]

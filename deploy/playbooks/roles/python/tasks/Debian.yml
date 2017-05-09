@@ -19,7 +19,7 @@
 - name: Install external libraries recommended for Pillow
   sudo: yes
   apt: name={{ item }} state=present
-  with_items: [libjpeg-turbo8, zlibc, libwebp5, libopenjpeg2]
+  with_items: [libjpeg-turbo8, zlibc, libwebp5, libopenjpeg5]
 
 - name: Install Python SQLite library
   sudo: yes
