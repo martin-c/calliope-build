@@ -1,0 +1,38 @@
+---
+# tasks for Debian platform (Ubuntu)
+
+- name: Create build directory
+  file:
+    state: directory
+    path: "{{ microbit_build_directory }}"
+
+# git clone https://github.com/lancaster-university/microbit-samples.git cpp-samples
+- name: Clone C++ examples
+  git:
+    repo: https://github.com/lancaster-university/microbit-samples.git
+    dest: "{{ microbit_build_directory }}/cpp-samples"
+
+# git clone https://github.com/carlosperate/microbit-dal-v1-cpp-template.git cpp-template-dal-v1
+- name: Clone C++ template for older DAL
+  git:
+    repo: https://github.com/carlosperate/microbit-dal-v1-cpp-template.git
+    dest: "{{ microbit_build_directory }}/cpp-template-dal-v1"
+
+# git clone https://github.com/bbcmicrobit/micropython.git
+- name: Clone MicroPython repository
+  git:
+    repo: https://github.com/bbcmicrobit/micropython.git
+    dest: "{{ microbit_build_directory }}/micropython"
+
+# Cloning uFlash repository (we don't really need this on a remote build server)
+# git clone https://github.com/ntoll/uflash.git
+- name: Clone uFlash repository
+  git:
+    repo: https://github.com/ntoll/uflash.git
+    dest: "{{ microbit_build_directory }}/uflash"
+
+# Clone microREPL (probably not needed on remote build server either)
+- name: Clone microREPL
+  git:
+    repo: https://github.com/ntoll/microrepl.git
+    dest: "{{ microbit_build_directory }}/microrepl"

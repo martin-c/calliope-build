@@ -25,7 +25,7 @@
   apt:
     name: "{{ item }}"
     state: absent
-  with_items: [binutils-arm-none-eabi, gcc-arm-none-eabi]
+  with_items: ["binutils-arm-none-eabi", "gcc-arm-none-eabi", "gcc-arm-embedded"]
 
 - name: Add ppas
   sudo: yes
@@ -40,9 +40,9 @@
 # TODO: Install newlib-2.4.0!
 # <https://github.com/bbcmicrobit/micropython/issues/363#issuecomment-270890904>
 
-- name: Install GCC ARM compiler and toolchain
-  sudo: yes
-  apt:
-    name: "{{ item }}"
-    state: present
-  with_items: ["gcc-arm-none-eabi=15:4.9.3+svn231177-1", "gcc-arm-embedded=6-2017q1-1*"]
+#- name: Install GCC ARM compiler and toolchain
+#  sudo: yes
+#  apt:
+#    name: "{{ item }}"
+#    state: present
+#  with_items: ["gcc-arm-embedded=6-2017q1-1*", "gcc-arm-none-eabi=15:4.9.3+svn231177-1"]

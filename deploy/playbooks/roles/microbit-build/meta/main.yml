@@ -1,0 +1,4 @@
+---
+# List Role dependencies here
+dependencies:
+ - { role: gcc-arm-embedded }
