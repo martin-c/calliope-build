@@ -36,13 +36,13 @@
   with_items: ["ppa:team-gcc-arm-embedded/ppa"]
 
 # This installs newlib 2.2.0+git20150830.5a3d536-1
-# We need newlib 2.4.0-2
+# We may need newlib 2.4.0-2
 # TODO: Install newlib-2.4.0!
 # <https://github.com/bbcmicrobit/micropython/issues/363#issuecomment-270890904>
 
-#- name: Install GCC ARM compiler and toolchain
-#  sudo: yes
-#  apt:
-#    name: "{{ item }}"
-#    state: present
-#  with_items: ["gcc-arm-embedded=6-2017q1-1*", "gcc-arm-none-eabi=15:4.9.3+svn231177-1"]
+- name: Install GCC ARM compiler and toolchain
+  sudo: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: ["gcc-arm-none-eabi=15:4.9.3+svn231177-1"]
